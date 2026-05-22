@@ -52,6 +52,41 @@ web/             — Frontend themes container
 - Usage: `useTranslation()` hook, call `t('English key')` in components
 - CLI tools: `bun run i18n:sync` (from `web/default/`)
 
+## Dai API Fork Maintenance
+
+This local checkout is maintained as a private Dai API fork of upstream
+`QuantumNous/new-api`.
+
+Remote and branch roles:
+
+- `upstream` points to `https://github.com/QuantumNous/new-api.git`.
+- `origin` points to `https://github.com/Dimon94/new-api.git`.
+- `main` tracks `upstream/main` and should stay as close to upstream as possible.
+- `dai-api/custom` tracks `origin/dai-api/custom` and is the private customization branch.
+
+Operational rules for agents:
+
+- Do private customization work on `dai-api/custom`, not on `main`.
+- Keep `main` clean for upstream sync. Do not commit Dai API customizations to `main`.
+- Do not open PRs from `dai-api/custom` to the upstream project unless the user explicitly asks and the change is upstream-appropriate.
+- Treat upstream project identity and attribution rules as upstream constraints. Private Dai API branding changes are allowed only inside this fork's custom branch.
+- Keep local build artifacts, binaries, logs, SQLite databases, secrets, and `.env` files out of commits unless the user explicitly asks otherwise.
+- Prefer small, isolated commits for each customization area, especially auth/provider/account-system changes.
+
+Recommended upstream sync flow:
+
+```bash
+git switch main
+git fetch upstream
+git merge upstream/main
+
+git switch dai-api/custom
+git rebase main
+git push origin dai-api/custom --force-with-lease
+```
+
+If rebase conflicts occur, preserve the upstream implementation unless the conflict is in a known Dai API customization surface. Resolve by keeping the private customization minimal and localized.
+
 ## Rules
 
 ### Rule 1: JSON Package — Use `common/json.go`

@@ -34,7 +34,7 @@ func (a *Adaptor) ConvertAudioRequest(c *gin.Context, info *relaycommon.RelayInf
 }
 
 func (a *Adaptor) ConvertImageRequest(c *gin.Context, info *relaycommon.RelayInfo, request dto.ImageRequest) (any, error) {
-	return nil, errors.New("codex channel: endpoint not supported")
+	return buildCodexImageRequest(c, info, request)
 }
 
 func (a *Adaptor) Init(info *relaycommon.RelayInfo) {
@@ -112,6 +112,9 @@ func (a *Adaptor) DoRequest(c *gin.Context, info *relaycommon.RelayInfo, request
 }
 
 func (a *Adaptor) DoResponse(c *gin.Context, resp *http.Response, info *relaycommon.RelayInfo) (usage any, err *types.NewAPIError) {
+	if info.RelayMode == relayconstant.RelayModeImagesGenerations || info.RelayMode == relayconstant.RelayModeImagesEdits {
+		return handleCodexImageResponse(c, resp, info)
+	}
 	if info.RelayMode != relayconstant.RelayModeResponses && info.RelayMode != relayconstant.RelayModeResponsesCompact {
 		return nil, types.NewError(errors.New("codex channel: endpoint not supported"), types.ErrorCodeInvalidRequest)
 	}
@@ -135,8 +138,11 @@ func (a *Adaptor) GetChannelName() string {
 }
 
 func (a *Adaptor) GetRequestURL(info *relaycommon.RelayInfo) (string, error) {
-	if info.RelayMode != relayconstant.RelayModeResponses && info.RelayMode != relayconstant.RelayModeResponsesCompact {
-		return "", errors.New("codex channel: only /v1/responses and /v1/responses/compact are supported")
+	if info.RelayMode != relayconstant.RelayModeResponses &&
+		info.RelayMode != relayconstant.RelayModeResponsesCompact &&
+		info.RelayMode != relayconstant.RelayModeImagesGenerations &&
+		info.RelayMode != relayconstant.RelayModeImagesEdits {
+		return "", errors.New("codex channel: only /v1/responses, /v1/responses/compact, and image endpoints are supported")
 	}
 	path := "/backend-api/codex/responses"
 	if info.RelayMode == relayconstant.RelayModeResponsesCompact {

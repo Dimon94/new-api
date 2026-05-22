@@ -9,12 +9,14 @@ var baseModelList = []string{
 	"gpt-5", "gpt-5-codex", "gpt-5-codex-mini",
 	"gpt-5.1", "gpt-5.1-codex", "gpt-5.1-codex-max", "gpt-5.1-codex-mini",
 	"gpt-5.2", "gpt-5.2-codex", "gpt-5.3-codex", "gpt-5.3-codex-spark",
-	"gpt-5.4",
+	"gpt-5.4", "gpt-5.4-mini",
 }
 
-var ModelList = withCompactModelSuffix(baseModelList)
+var ModelList = lo.Uniq(append(withCompactModelSuffix(baseModelList), CodexImageModelID))
 
 const ChannelName = "codex"
+const CodexImageModelID = "gpt-image-2"
+const CodexImagesMainModel = "gpt-5.4-mini"
 
 func withCompactModelSuffix(models []string) []string {
 	out := make([]string, 0, len(models)*2)

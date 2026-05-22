@@ -280,6 +280,7 @@ var defaultModelPrice = map[string]float64{
 	"suno_music":                     0.1,
 	"suno_lyrics":                    0.01,
 	"dall-e-3":                       0.04,
+	"gpt-image-2":                    0.25,
 	"imagen-3.0-generate-002":        0.03,
 	"imagen-4.0-generate-preview-*":  0.04,
 	"gemini-3.0-pro-image-*":         0.08,

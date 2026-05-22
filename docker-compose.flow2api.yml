@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  new-api:
+    depends_on:
+      - flow2api
+
+  flow2api:
+    build:
+      context: ./third_party/flow2api
+    container_name: flow2api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./third_party/flow2api/config:/app/config
+      - ./third_party/flow2api/data:/app/data
+      - ./third_party/flow2api/tmp:/app/tmp
+    networks:
+      - new-api-network
+    healthcheck:
+      test: ["CMD-SHELL", "python - <<'PY'\nimport json, urllib.request\nwith urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5) as r:\n    data=json.load(r)\n    raise SystemExit(0 if data.get('backend_running') else 1)\nPY"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

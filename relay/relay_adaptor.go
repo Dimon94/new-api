@@ -16,6 +16,7 @@ import (
 	"github.com/QuantumNous/new-api/relay/channel/coze"
 	"github.com/QuantumNous/new-api/relay/channel/deepseek"
 	"github.com/QuantumNous/new-api/relay/channel/dify"
+	flow2api "github.com/QuantumNous/new-api/relay/channel/flow2api"
 	"github.com/QuantumNous/new-api/relay/channel/gemini"
 	"github.com/QuantumNous/new-api/relay/channel/jimeng"
 	"github.com/QuantumNous/new-api/relay/channel/jina"
@@ -32,6 +33,7 @@ import (
 	"github.com/QuantumNous/new-api/relay/channel/submodel"
 	taskali "github.com/QuantumNous/new-api/relay/channel/task/ali"
 	taskdoubao "github.com/QuantumNous/new-api/relay/channel/task/doubao"
+	taskflow2api "github.com/QuantumNous/new-api/relay/channel/task/flow2api"
 	taskGemini "github.com/QuantumNous/new-api/relay/channel/task/gemini"
 	"github.com/QuantumNous/new-api/relay/channel/task/hailuo"
 	taskjimeng "github.com/QuantumNous/new-api/relay/channel/task/jimeng"
@@ -120,6 +122,8 @@ func GetAdaptor(apiType int) channel.Adaptor {
 		return &replicate.Adaptor{}
 	case constant.APITypeCodex:
 		return &codex.Adaptor{}
+	case constant.APITypeFlow2API:
+		return &flow2api.Adaptor{}
 	}
 	return nil
 }
@@ -157,6 +161,8 @@ func GetTaskAdaptor(platform constant.TaskPlatform) channel.TaskAdaptor {
 			return &tasksora.TaskAdaptor{}
 		case constant.ChannelTypeGemini:
 			return &taskGemini.TaskAdaptor{}
+		case constant.ChannelTypeFlow2API:
+			return &taskflow2api.TaskAdaptor{}
 		case constant.ChannelTypeMiniMax:
 			return &hailuo.TaskAdaptor{}
 		}

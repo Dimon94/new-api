@@ -281,6 +281,9 @@ var defaultModelPrice = map[string]float64{
 	"suno_lyrics":                    0.01,
 	"dall-e-3":                       0.04,
 	"imagen-3.0-generate-002":        0.03,
+	"imagen-4.0-generate-preview-*":  0.04,
+	"gemini-3.0-pro-image-*":         0.08,
+	"gemini-3.1-flash-image-*":       0.04,
 	"black-forest-labs/flux-1.1-pro": 0.04,
 	"gpt-4-gizmo-*":                  0.1,
 	"mj_video":                       0.8,
@@ -308,6 +311,10 @@ var defaultModelPrice = map[string]float64{
 	"veo-3.0-fast-generate-001":      0.15,
 	"veo-3.1-generate-preview":       0.4,
 	"veo-3.1-fast-generate-preview":  0.15,
+	"veo_3_1_t2v_*":                  0.4,
+	"veo_3_1_i2v_*":                  0.4,
+	"veo_3_1_r2v_*":                  0.4,
+	"veo_3_1_interpolation_*":        0.4,
 }
 
 var defaultAudioRatio = map[string]float64{
@@ -737,6 +744,27 @@ func FormatMatchingModelName(name string) string {
 	}
 	if strings.HasPrefix(name, "gpt-4o-gizmo") {
 		name = "gpt-4o-gizmo-*"
+	}
+	if strings.HasPrefix(name, "imagen-4.0-generate-preview") {
+		name = "imagen-4.0-generate-preview-*"
+	}
+	if strings.HasPrefix(name, "gemini-3.0-pro-image") {
+		name = "gemini-3.0-pro-image-*"
+	}
+	if strings.HasPrefix(name, "gemini-3.1-flash-image") {
+		name = "gemini-3.1-flash-image-*"
+	}
+	if strings.HasPrefix(name, "veo_3_1_t2v") {
+		name = "veo_3_1_t2v_*"
+	}
+	if strings.HasPrefix(name, "veo_3_1_i2v") {
+		name = "veo_3_1_i2v_*"
+	}
+	if strings.HasPrefix(name, "veo_3_1_r2v") {
+		name = "veo_3_1_r2v_*"
+	}
+	if strings.HasPrefix(name, "veo_3_1_interpolation") {
+		name = "veo_3_1_interpolation_*"
 	}
 	return name
 }

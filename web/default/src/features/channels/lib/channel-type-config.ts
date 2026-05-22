@@ -134,6 +134,18 @@ export const CHANNEL_TYPE_CONFIGS: Record<number, ChannelTypeConfig> = {
       baseUrl: 'Default: https://api.replicate.com',
     },
   },
+  58: {
+    id: 58,
+    name: CHANNEL_TYPES[58],
+    icon: 'google',
+    defaultBaseUrl: 'http://127.0.0.1:8000',
+    hints: {
+      baseUrl: 'Flow2API sidecar URL, e.g. http://flow2api:8000',
+      key: 'Flow2API API key',
+      models:
+        'veo_3_1_t2v_fast_landscape, veo_3_1_i2v_s_fast_fl, gemini-3.1-flash-image-landscape',
+    },
+  },
 }
 
 /**
